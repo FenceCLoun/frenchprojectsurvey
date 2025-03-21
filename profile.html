@@ -1,0 +1,379 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Media Personality Profile{% endblock %}
+
+{% block head %}
+<style>
+    .trait-score {
+        height: 30px;
+        transition: width 1s ease-in-out;
+    }
+    .profile-card {
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.3s;
+    }
+    .profile-card:hover {
+        transform: translateY(-5px);
+    }
+    .recommendation-card {
+        border-left: 4px solid var(--bs-primary);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-5 align-items-center">
+    <div class="col-md-8">
+        <h1 class="display-4 fw-bold">Your Media Personality Profile</h1>
+        <p class="lead text-muted">
+            Based on your survey responses, we've analyzed your media consumption patterns
+            to create your personalized profile.
+        </p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
+            <i class="fas fa-home me-2"></i> Back to Home
+        </a>
+    </div>
+</div>
+
+<div class="card profile-card shadow-sm mb-5 bg-dark">
+    <div class="card-body p-4">
+        <div class="row">
+            <div class="col-md-4 text-center mb-4 mb-md-0">
+                <div class="display-1 mb-3">
+                    {% if profile.profile_type == "Digital Native" %}
+                        <i class="fas fa-laptop text-primary"></i>
+                    {% elif profile.profile_type == "Classic Consumer" %}
+                        <i class="fas fa-book text-primary"></i>
+                    {% elif profile.profile_type == "Content Creator" %}
+                        <i class="fas fa-video text-primary"></i>
+                    {% elif profile.profile_type == "Information Seeker" %}
+                        <i class="fas fa-search text-primary"></i>
+                    {% elif profile.profile_type == "Entertainment Enthusiast" %}
+                        <i class="fas fa-film text-primary"></i>
+                    {% elif profile.profile_type == "Balanced Consumer" %}
+                        <i class="fas fa-balance-scale text-primary"></i>
+                    {% elif profile.profile_type == "Social Media Maven" %}
+                        <i class="fas fa-hashtag text-primary"></i>
+                    {% else %}
+                        <i class="fas fa-user text-primary"></i>
+                    {% endif %}
+                </div>
+                <h2 class="mb-3">{{ profile.profile_type }}</h2>
+                <div class="d-grid">
+                    <button class="btn btn-sm btn-outline-light" onclick="window.print()">
+                        <i class="fas fa-print me-2"></i> Print Profile
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h3 class="mb-4">Your Media Personality Type</h3>
+                <p class="lead">
+                    {% if profile.profile_type == "Digital Native" %}
+                        You were born into the digital age and navigate various media platforms with ease. Your consumption habits focus heavily on online sources, streaming services, and digital content.
+                    {% elif profile.profile_type == "Classic Consumer" %}
+                        You prefer traditional media formats and value quality over quantity. Books, print newspapers, and traditional TV still play a significant role in your media diet.
+                    {% elif profile.profile_type == "Content Creator" %}
+                        You not only consume media but actively create and share your own content. You understand both sides of the media landscape and often engage with platforms as both producer and consumer.
+                    {% elif profile.profile_type == "Information Seeker" %}
+                        You primarily use media to stay informed and educated on current events. News, documentaries, and educational content make up a significant portion of your media consumption.
+                    {% elif profile.profile_type == "Entertainment Enthusiast" %}
+                        You're all about entertainment and use media primarily for enjoyment. Movies, TV shows, and entertainment content are your go-to choices for media consumption.
+                    {% elif profile.profile_type == "Balanced Consumer" %}
+                        You maintain a healthy balance across different media platforms. Your media diet is diverse, including a mix of traditional and digital sources, entertainment and information.
+                    {% elif profile.profile_type == "Social Media Maven" %}
+                        Social media dominates your media consumption habits. You're highly engaged with various platforms and often use them as your primary source for information, entertainment, and connection.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-7">
+        <div class="card shadow-sm bg-dark h-100">
+            <div class="card-header bg-dark">
+                <h3 class="mb-0">Your Media Trait Scores</h3>
+            </div>
+            <div class="card-body">
+                <div class="trait-scores">
+                    {% for trait, score in profile.traits.items() %}
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h5 class="mb-0">{{ trait.replace('_', ' ').title() }}</h5>
+                            <span class="badge bg-primary">{{ score }}/100</span>
+                        </div>
+                        <div class="progress" style="height: 15px;">
+                            <div class="progress-bar trait-score bg-primary" role="progressbar" 
+                                 style="width: 0%;" 
+                                 data-score="{{ score }}"></div>
+                        </div>
+                        <p class="text-muted mt-2 small">{{ profile.descriptions.get(trait, '') }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card shadow-sm bg-dark h-100">
+            <div class="card-header bg-dark">
+                <h3 class="mb-0">Personalized Recommendations</h3>
+            </div>
+            <div class="card-body">
+                <div class="recommendations">
+                    {% for recommendation in profile.recommendations %}
+                    <div class="recommendation-card card mb-3 bg-dark">
+                        <div class="card-body">
+                            <i class="fas fa-lightbulb text-primary me-2"></i>
+                            {{ recommendation }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-5 bg-dark">
+    <div class="card-header bg-dark">
+        <h3 class="mb-0">Your Media Personality Visualization</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <canvas id="traitRadarChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if profile.personalized_insights %}
+<div class="card shadow-sm mb-5 bg-dark">
+    <div class="card-header bg-dark">
+        <h3 class="mb-0">
+            <i class="fas fa-lightbulb text-warning me-2"></i>
+            Personalized Media Consumption Insights
+        </h3>
+    </div>
+    <div class="card-body">
+        <p class="lead mb-4">
+            Based on your specific media consumption patterns, here are some personalized insights:
+        </p>
+        <div class="list-group bg-dark">
+            {% for insight in profile.personalized_insights %}
+            <div class="list-group-item bg-dark border-light">
+                <div class="d-flex">
+                    <div class="me-3 text-primary">
+                        <i class="fas fa-check-circle fa-lg"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">{{ insight }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if profile.raw_data %}
+<div class="card shadow-sm mb-5 bg-dark">
+    <div class="card-header bg-dark">
+        <h3 class="mb-0">
+            <i class="fas fa-chart-line text-info me-2"></i>
+            Your Media Consumption Summary
+        </h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% if profile.raw_data.get('tv_hours') %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 bg-dark border-secondary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-tv fa-2x mb-3 text-primary"></i>
+                        <h5>TV Viewing</h5>
+                        <p class="display-4 mb-0">{{ profile.raw_data.tv_hours }}</p>
+                        <p class="text-muted">Hours daily</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if profile.raw_data.get('social_media_hours') %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 bg-dark border-secondary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-mobile-alt fa-2x mb-3 text-primary"></i>
+                        <h5>Social Media</h5>
+                        <p class="display-4 mb-0">{{ profile.raw_data.social_media_hours }}</p>
+                        <p class="text-muted">Hours daily</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if profile.raw_data.get('book_frequency') %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 bg-dark border-secondary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-book fa-2x mb-3 text-primary"></i>
+                        <h5>Reading Books</h5>
+                        <p class="h4 mb-0">{{ profile.raw_data.book_frequency.title() }}</p>
+                        <p class="text-muted">Frequency</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if profile.raw_data.get('movie_frequency') %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 bg-dark border-secondary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-film fa-2x mb-3 text-primary"></i>
+                        <h5>Movie Watching</h5>
+                        <p class="h4 mb-0">{{ profile.raw_data.movie_frequency.title() }}</p>
+                        <p class="text-muted">Frequency</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if profile.raw_data.get('podcast_frequency') %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 bg-dark border-secondary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-podcast fa-2x mb-3 text-primary"></i>
+                        <h5>Podcast Listening</h5>
+                        <p class="h4 mb-0">{{ profile.raw_data.podcast_frequency.title() }}</p>
+                        <p class="text-muted">Frequency</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if profile.raw_data.get('news_source') %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 bg-dark border-secondary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-newspaper fa-2x mb-3 text-primary"></i>
+                        <h5>News Source</h5>
+                        <p class="h4 mb-0">{{ profile.raw_data.news_source.replace('_', ' ').title() }}</p>
+                        <p class="text-muted">Primary medium</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="text-center mt-5">
+    <h3 class="mb-4">Want to share your media personality profile?</h3>
+    <div class="d-flex justify-content-center gap-3">
+        <button class="btn btn-outline-primary" id="shareTwitter">
+            <i class="fab fa-twitter me-2"></i> Share on Twitter
+        </button>
+        <button class="btn btn-outline-primary" id="shareFacebook">
+            <i class="fab fa-facebook me-2"></i> Share on Facebook
+        </button>
+        <button class="btn btn-outline-primary" id="copyLink">
+            <i class="fas fa-link me-2"></i> Copy Link
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate progress bars
+        setTimeout(function() {
+            document.querySelectorAll('.trait-score').forEach(function(bar) {
+                const score = bar.dataset.score;
+                bar.style.width = score + '%';
+            });
+        }, 300);
+        
+        // Create radar chart
+        const ctx = document.getElementById('traitRadarChart').getContext('2d');
+        
+        // Extract trait data
+        const traitLabels = [];
+        const traitScores = [];
+        
+        {% for trait, score in profile.traits.items() %}
+            traitLabels.push('{{ trait.replace("_", " ").title() }}');
+            traitScores.push({{ score }});
+        {% endfor %}
+        
+        const chart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: traitLabels,
+                datasets: [{
+                    label: 'Your Media Traits',
+                    data: traitScores,
+                    backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                    borderColor: 'rgba(13, 110, 253, 1)',
+                    pointBackgroundColor: 'rgba(13, 110, 253, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(13, 110, 253, 1)'
+                }]
+            },
+            options: {
+                elements: {
+                    line: {
+                        borderWidth: 3
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        pointLabels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+        
+        // Share functionality
+        document.getElementById('shareTwitter').addEventListener('click', function() {
+            const text = 'I just discovered my media personality type: {{ profile.profile_type }}! Check out your own media consumption profile:';
+            const url = window.location.href;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        });
+        
+        document.getElementById('shareFacebook').addEventListener('click', function() {
+            const url = window.location.href;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+        });
+        
+        document.getElementById('copyLink').addEventListener('click', function() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(function() {
+                alert('Link copied to clipboard!');
+            });
+        });
+    });
+</script>
+{% endblock %}

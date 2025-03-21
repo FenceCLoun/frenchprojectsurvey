@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}Media Personality Profiler - Discover Your Media Consumption Profile{% endblock %}
+
+{% block content %}
+<div class="py-5 text-center">
+    <i class="fas fa-chart-pie fa-4x mb-3 text-primary"></i>
+    <h1 class="display-5 fw-bold">Media Personality Profiler</h1>
+    <div class="col-lg-8 mx-auto">
+        <p class="lead mb-4">
+            Discover your unique media consumption personality profile based on your habits and preferences.
+            Complete our Paperform survey and get personalized insights into your media consumption patterns.
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="#how-it-works" class="btn btn-primary btn-lg px-4 gap-3">
+                Learn More
+            </a>
+            <a href="{{ url_for('demo') }}" class="btn btn-outline-secondary btn-lg px-4">
+                Try Demo
+            </a>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5">
+
+<div id="how-it-works" class="row g-5 py-5">
+    <div class="col-md-6">
+        <h2 class="fw-bold mb-4">How It Works</h2>
+        <div class="card mb-3 bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-clipboard-list text-primary me-2"></i>
+                    Take the Survey
+                </h5>
+                <p class="card-text">
+                    Complete our comprehensive media consumption survey powered by Paperform, 
+                    answering questions about your habits across different media types.
+                </p>
+            </div>
+        </div>
+        <div class="card mb-3 bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-cogs text-primary me-2"></i>
+                    We Analyze Your Responses
+                </h5>
+                <p class="card-text">
+                    Our algorithm processes your responses to identify patterns in your media consumption
+                    and determine your unique media personality profile.
+                </p>
+            </div>
+        </div>
+        <div class="card bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-chart-bar text-primary me-2"></i>
+                    Get Your Personalized Profile
+                </h5>
+                <p class="card-text">
+                    Receive a detailed breakdown of your media consumption personality with trait scores,
+                    personalized descriptions, and tailored recommendations.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h2 class="fw-bold mb-4">Profile Types</h2>
+        <div class="accordion" id="profileAccordion">
+            <div class="accordion-item bg-dark">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#digitalNative">
+                        <i class="fas fa-laptop me-2"></i> Digital Native
+                    </button>
+                </h2>
+                <div id="digitalNative" class="accordion-collapse collapse" data-bs-parent="#profileAccordion">
+                    <div class="accordion-body">
+                        You were born into the digital age and navigate various media platforms with ease. Your consumption habits focus heavily on online sources, streaming services, and digital content.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item bg-dark">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#classicConsumer">
+                        <i class="fas fa-book me-2"></i> Classic Consumer
+                    </button>
+                </h2>
+                <div id="classicConsumer" class="accordion-collapse collapse" data-bs-parent="#profileAccordion">
+                    <div class="accordion-body">
+                        You prefer traditional media formats and value quality over quantity. Books, print newspapers, and traditional TV still play a significant role in your media diet.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item bg-dark">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contentCreator">
+                        <i class="fas fa-video me-2"></i> Content Creator
+                    </button>
+                </h2>
+                <div id="contentCreator" class="accordion-collapse collapse" data-bs-parent="#profileAccordion">
+                    <div class="accordion-body">
+                        You not only consume media but actively create and share your own content. You understand both sides of the media landscape and often engage with platforms as both producer and consumer.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item bg-dark">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#informationSeeker">
+                        <i class="fas fa-search me-2"></i> Information Seeker
+                    </button>
+                </h2>
+                <div id="informationSeeker" class="accordion-collapse collapse" data-bs-parent="#profileAccordion">
+                    <div class="accordion-body">
+                        You primarily use media to stay informed and educated on current events. News, documentaries, and educational content make up a significant portion of your media consumption.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item bg-dark">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#entertainmentEnthusiast">
+                        <i class="fas fa-film me-2"></i> Entertainment Enthusiast
+                    </button>
+                </h2>
+                <div id="entertainmentEnthusiast" class="accordion-collapse collapse" data-bs-parent="#profileAccordion">
+                    <div class="accordion-body">
+                        You're all about entertainment and use media primarily for enjoyment. Movies, TV shows, and entertainment content are your go-to choices for media consumption.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5">
+
+<section class="py-5 text-center">
+    <div class="row py-lg-5">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h2 class="fw-bold">Ready to Discover Your Media Personality?</h2>
+            <p class="lead text-muted">
+                Take our comprehensive survey to receive your personalized media consumption profile.
+                Our algorithm will analyze your habits and preferences to reveal insights about your
+                media personality.
+            </p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                <a href="https://paperform.co" class="btn btn-primary btn-lg px-4 py-3">
+                    <i class="fas fa-external-link-alt me-2"></i> Take the Survey
+                </a>
+                <a href="{{ url_for('demo') }}" class="btn btn-outline-secondary btn-lg px-4 py-3">
+                    <i class="fas fa-flask me-2"></i> Try Demo Profile
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

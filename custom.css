@@ -1,0 +1,79 @@
+/* Custom styles for Media Personality Profiler */
+
+/* Smooth transitions */
+.card, .btn {
+    transition: all 0.3s ease;
+}
+
+/* Make card hover effect for interactive elements */
+.interactive-card {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.interactive-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile type icons */
+.profile-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+/* Radar chart container */
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 350px;
+    width: 350px;
+}
+
+/* Trait score bars animation */
+.trait-score {
+    transition: width 1.5s ease-in-out;
+}
+
+/* Recommendation cards styling */
+.recommendation-card {
+    border-left: 4px solid var(--bs-primary);
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+}
+
+/* Print styles */
+@media print {
+    nav, footer, .no-print {
+        display: none !important;
+    }
+    
+    body {
+        background-color: white !important;
+        color: black !important;
+    }
+    
+    .card {
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+    }
+    
+    .card-body {
+        background-color: white !important;
+        color: black !important;
+    }
+    
+    .text-muted {
+        color: #6c757d !important;
+    }
+    
+    .progress {
+        border: 1px solid #ddd !important;
+    }
+    
+    .progress-bar {
+        print-color-adjust: exact !important;
+        -webkit-print-color-adjust: exact !important;
+    }
+}
